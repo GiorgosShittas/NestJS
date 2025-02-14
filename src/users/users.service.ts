@@ -16,4 +16,16 @@ export class UsersService {
         return this.repo.find();
 
     }
+    findOne(id:number): Promise<User>{
+        return this.repo.findOneBy({id})
+    }
+    async updateOne(id:number,userData: any): Promise<User | string>{
+        const user = await this.repo.findOneBy({id}) || null
+        console.log(user)
+        if (user){
+            this.repo.merge(user, userData);
+            return this.repo.save(user)
+        }
+        return "Not Found"
+    }
 }
